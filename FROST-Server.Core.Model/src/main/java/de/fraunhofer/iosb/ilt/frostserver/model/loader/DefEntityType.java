@@ -49,6 +49,11 @@ public class DefEntityType {
      */
     private Map<String, DefNavigationProperty> navigationProperties;
     /**
+     * The "schema" that data for this EntityType is stored in. What this
+     * exactly means depends on the PersistenceManager.
+     */
+    private String schema;
+    /**
      * The "table" that data for this EntityType is stored in. What this exactly
      * means depends on the PersistenceManager.
      */
@@ -190,6 +195,26 @@ public class DefEntityType {
     public DefEntityType addNavigationProperty(DefNavigationProperty navigationProperty) {
         getNavigationProperties().put(navigationProperty.getName(), navigationProperty);
         return this;
+    }
+
+    /**
+     * The "schema" that data for this EntityType is stored in. What this
+     * exactly means depends on the PersistenceManager.
+     *
+     * @return the schema
+     */
+    public String getSchema() {
+        return schema;
+    }
+
+    /**
+     * The "schema" that data for this EntityType is stored in. What this
+     * exactly means depends on the PersistenceManager.
+     *
+     * @param schema the schema to set
+     */
+    public void setSchema(String schema) {
+        this.schema = schema;
     }
 
     /**
