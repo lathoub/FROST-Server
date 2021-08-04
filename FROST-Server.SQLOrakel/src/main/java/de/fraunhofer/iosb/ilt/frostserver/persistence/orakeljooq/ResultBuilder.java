@@ -140,7 +140,7 @@ public class ResultBuilder<J extends Comparable> implements ResourcePathVisitor 
         if (query == null) {
             return;
         }
-        customLinksHelper.expandCustomLinks(entity, path);
+        customLinksHelper.expandCustomLinks(query, entity, path);
         for (Expand expand : query.getExpand()) {
             addExpandToEntity(entity, expand);
         }
