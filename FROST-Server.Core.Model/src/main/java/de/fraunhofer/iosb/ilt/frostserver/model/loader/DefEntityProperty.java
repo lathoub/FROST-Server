@@ -23,6 +23,7 @@ import de.fraunhofer.iosb.ilt.frostserver.model.EntityType;
 import de.fraunhofer.iosb.ilt.frostserver.model.ModelRegistry;
 import de.fraunhofer.iosb.ilt.frostserver.model.ext.TypeReferencesHelper;
 import de.fraunhofer.iosb.ilt.frostserver.property.EntityPropertyMain;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -109,9 +110,11 @@ public class DefEntityProperty {
      * The name of the EntityProperty.
      *
      * @param name the name to set
+     * @return this.
      */
-    public void setName(String name) {
+    public DefEntityProperty setName(String name) {
         this.name = name;
+        return this;
     }
 
     /**
@@ -127,9 +130,11 @@ public class DefEntityProperty {
      * Aliases for the name of the Property.
      *
      * @param aliases the aliases to set
+     * @return this.
      */
-    public void setAliases(List<String> aliases) {
+    public DefEntityProperty setAliases(List<String> aliases) {
         this.aliases = aliases;
+        return this;
     }
 
     /**
@@ -145,9 +150,11 @@ public class DefEntityProperty {
      * The java type (Class) of the Property.
      *
      * @param type the type to set
+     * @return this.
      */
-    public void setType(String type) {
+    public DefEntityProperty setType(String type) {
         this.type = type;
+        return this;
     }
 
     /**
@@ -163,9 +170,11 @@ public class DefEntityProperty {
      * Flag indicating the property must be set.
      *
      * @param required the required to set
+     * @return this.
      */
-    public void setRequired(boolean required) {
+    public DefEntityProperty setRequired(boolean required) {
         this.required = required;
+        return this;
     }
 
     /**
@@ -174,6 +183,9 @@ public class DefEntityProperty {
      * @return the handlers
      */
     public List<PropertyPersistenceMapper> getHandlers() {
+        if (handlers == null) {
+            handlers = new ArrayList<>();
+        }
         return handlers;
     }
 
@@ -181,9 +193,16 @@ public class DefEntityProperty {
      * Handlers used to map the property to a persistence manager.
      *
      * @param handlers the handlers to set
+     * @return this.
      */
-    public void setHandlers(List<PropertyPersistenceMapper> handlers) {
+    public DefEntityProperty setHandlers(List<PropertyPersistenceMapper> handlers) {
         this.handlers = handlers;
+        return this;
+    }
+
+    public DefEntityProperty addHandler(PropertyPersistenceMapper handler) {
+        getHandlers().add(handler);
+        return this;
     }
 
     /**
@@ -201,9 +220,11 @@ public class DefEntityProperty {
      * null.
      *
      * @param serialiseNull the serialiseNull to set
+     * @return this.
      */
-    public void setSerialiseNull(boolean serialiseNull) {
+    public DefEntityProperty setSerialiseNull(boolean serialiseNull) {
         this.serialiseNull = serialiseNull;
+        return this;
     }
 
     /**
@@ -221,13 +242,16 @@ public class DefEntityProperty {
      * that can be queried.
      *
      * @param hasCustomProperties the hasCustomProperties to set
+     * @return this.
      */
-    public void setHasCustomProperties(boolean hasCustomProperties) {
+    public DefEntityProperty setHasCustomProperties(boolean hasCustomProperties) {
         this.hasCustomProperties = hasCustomProperties;
+        return this;
     }
 
-    public void setEntityType(EntityType entityType) {
+    public DefEntityProperty setEntityType(EntityType entityType) {
         this.entityType = entityType;
+        return this;
     }
 
     public EntityType getEntityType() {

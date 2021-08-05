@@ -71,10 +71,12 @@ public class FieldMapperTimeValue extends FieldMapperAbstract {
     }
 
     /**
-     * @param fieldStart the fieldStart to set
+     * @param fieldStart the fieldStart to set.
+     * @return this.
      */
-    public void setFieldStart(String fieldStart) {
+    public FieldMapperTimeValue setFieldStart(String fieldStart) {
         this.fieldStart = fieldStart;
+        return this;
     }
 
     /**
@@ -85,10 +87,12 @@ public class FieldMapperTimeValue extends FieldMapperAbstract {
     }
 
     /**
-     * @param fieldEnd the fieldEnd to set
+     * @param fieldEnd the fieldEnd to set.
+     * @return this.
      */
-    public void setFieldEnd(String fieldEnd) {
+    public FieldMapperTimeValue setFieldEnd(String fieldEnd) {
         this.fieldEnd = fieldEnd;
+        return this;
     }
 
 }

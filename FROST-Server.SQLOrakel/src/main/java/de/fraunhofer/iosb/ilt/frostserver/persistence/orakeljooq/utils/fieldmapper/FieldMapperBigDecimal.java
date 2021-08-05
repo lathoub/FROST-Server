@@ -61,10 +61,12 @@ public class FieldMapperBigDecimal extends FieldMapperAbstract {
     }
 
     /**
-     * @param field the field to set
+     * @param field the field to set.
+     * @return this.
      */
-    public void setField(String field) {
+    public FieldMapperBigDecimal setField(String field) {
         this.field = field;
+        return this;
     }
 
 }

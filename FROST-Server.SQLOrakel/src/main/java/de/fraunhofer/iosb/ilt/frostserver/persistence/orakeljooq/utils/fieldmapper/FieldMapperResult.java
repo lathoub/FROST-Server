@@ -182,10 +182,12 @@ public class FieldMapperResult extends FieldMapperAbstract {
     }
 
     /**
-     * @param fieldType the fieldType to set
+     * @param fieldType the fieldType to set.
+     * @return this.
      */
-    public void setFieldType(String fieldType) {
+    public FieldMapperResult setFieldType(String fieldType) {
         this.fieldType = fieldType;
+        return this;
     }
 
     /**
@@ -196,10 +198,12 @@ public class FieldMapperResult extends FieldMapperAbstract {
     }
 
     /**
-     * @param fieldString the fieldString to set
+     * @param fieldString the fieldString to set.
+     * @return this.
      */
-    public void setFieldString(String fieldString) {
+    public FieldMapperResult setFieldString(String fieldString) {
         this.fieldString = fieldString;
+        return this;
     }
 
     /**
@@ -210,10 +214,12 @@ public class FieldMapperResult extends FieldMapperAbstract {
     }
 
     /**
-     * @param fieldNumber the fieldNumber to set
+     * @param fieldNumber the fieldNumber to set.
+     * @return this.
      */
-    public void setFieldNumber(String fieldNumber) {
+    public FieldMapperResult setFieldNumber(String fieldNumber) {
         this.fieldNumber = fieldNumber;
+        return this;
     }
 
     /**
@@ -224,10 +230,12 @@ public class FieldMapperResult extends FieldMapperAbstract {
     }
 
     /**
-     * @param fieldJson the fieldJson to set
+     * @param fieldJson the fieldJson to set.
+     * @return this.
      */
-    public void setFieldJson(String fieldJson) {
+    public FieldMapperResult setFieldJson(String fieldJson) {
         this.fieldJson = fieldJson;
+        return this;
     }
 
     /**
@@ -238,10 +246,12 @@ public class FieldMapperResult extends FieldMapperAbstract {
     }
 
     /**
-     * @param fieldBoolean the fieldBoolean to set
+     * @param fieldBoolean the fieldBoolean to set.
+     * @return this.
      */
-    public void setFieldBoolean(String fieldBoolean) {
+    public FieldMapperResult setFieldBoolean(String fieldBoolean) {
         this.fieldBoolean = fieldBoolean;
+        return this;
     }
 
 }

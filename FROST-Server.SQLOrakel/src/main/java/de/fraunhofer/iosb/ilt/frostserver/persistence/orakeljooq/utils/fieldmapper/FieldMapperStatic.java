@@ -74,10 +74,12 @@ public class FieldMapperStatic implements FieldMapper {
     /**
      * The value for the static field. Can be any type.
      *
-     * @param value the value to set
+     * @param value the value to set.
+     * @return this.
      */
-    public void setValue(Object value) {
+    public FieldMapperStatic setValue(Object value) {
         this.value = value;
+        return this;
     }
 
 }

@@ -132,10 +132,12 @@ public class FieldMapperManyToMany extends FieldMapperAbstract {
     /**
      * The name of the field in "my" table.
      *
-     * @param field the field to set
+     * @param field the field to set.
+     * @return this.
      */
-    public void setField(String field) {
+    public FieldMapperManyToMany setField(String field) {
         this.field = field;
+        return this;
     }
 
     /**
@@ -150,10 +152,12 @@ public class FieldMapperManyToMany extends FieldMapperAbstract {
     /**
      * Name of the link table.
      *
-     * @param linkTable the linkTable to set
+     * @param linkTable the linkTable to set.
+     * @return this.
      */
-    public void setLinkTable(String linkTable) {
+    public FieldMapperManyToMany setLinkTable(String linkTable) {
         this.linkTable = linkTable;
+        return this;
     }
 
     /**
@@ -168,10 +172,12 @@ public class FieldMapperManyToMany extends FieldMapperAbstract {
     /**
      * Name of "my" field in the link table.
      *
-     * @param linkOurField the linkOurField to set
+     * @param linkOurField the linkOurField to set.
+     * @return this.
      */
-    public void setLinkOurField(String linkOurField) {
+    public FieldMapperManyToMany setLinkOurField(String linkOurField) {
         this.linkOurField = linkOurField;
+        return this;
     }
 
     /**
@@ -186,10 +192,12 @@ public class FieldMapperManyToMany extends FieldMapperAbstract {
     /**
      * Name of the other table's field in the link table.
      *
-     * @param linkOtherField the linkOtherField to set
+     * @param linkOtherField the linkOtherField to set.
+     * @return this.
      */
-    public void setLinkOtherField(String linkOtherField) {
+    public FieldMapperManyToMany setLinkOtherField(String linkOtherField) {
         this.linkOtherField = linkOtherField;
+        return this;
     }
 
     /**
@@ -204,10 +212,12 @@ public class FieldMapperManyToMany extends FieldMapperAbstract {
     /**
      * The name of the other table we link to.
      *
-     * @param otherTable the otherTable to set
+     * @param otherTable the otherTable to set.
+     * @return this.
      */
-    public void setOtherTable(String otherTable) {
+    public FieldMapperManyToMany setOtherTable(String otherTable) {
         this.otherTable = otherTable;
+        return this;
     }
 
     /**
@@ -222,10 +232,12 @@ public class FieldMapperManyToMany extends FieldMapperAbstract {
     /**
      * The field in the other table that is the key in the relation.
      *
-     * @param otherField the otherField to set
+     * @param otherField the otherField to set.
+     * @return this.
      */
-    public void setOtherField(String otherField) {
+    public FieldMapperManyToMany setOtherField(String otherField) {
         this.otherField = otherField;
+        return this;
     }
 
 }

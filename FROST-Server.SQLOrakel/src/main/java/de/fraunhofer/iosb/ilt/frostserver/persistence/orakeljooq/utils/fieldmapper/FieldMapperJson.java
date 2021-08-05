@@ -89,10 +89,12 @@ public class FieldMapperJson extends FieldMapperAbstract {
     }
 
     /**
-     * @param field the field to set
+     * @param field the field to set.
+     * @return this.
      */
-    public void setField(String field) {
+    public FieldMapperJson setField(String field) {
         this.field = field;
+        return this;
     }
 
     /**
@@ -103,10 +105,12 @@ public class FieldMapperJson extends FieldMapperAbstract {
     }
 
     /**
-     * @param isMap the isMap to set
+     * @param isMap the isMap to set.
+     * @return this.
      */
-    public void setIsMap(boolean isMap) {
+    public FieldMapperJson setIsMap(boolean isMap) {
         this.isMap = isMap;
+        return this;
     }
 
 }
