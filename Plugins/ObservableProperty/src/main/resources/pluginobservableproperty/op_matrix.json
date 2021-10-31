@@ -6,7 +6,6 @@
             "entityProperties": {
                 "@iot.id": {
                     "aliases": ["id"],
-                    "type": "Id",
                     "handlers": [
                         {
                             "@class": "de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.utils.fieldmapper.FieldMapperId",
@@ -15,7 +14,7 @@
                     ]
                 },
                 "name": {
-                    "type": "String",
+                    "type": "Edm.String",
                     "required": true,
                     "handlers": [
                         {
@@ -25,7 +24,7 @@
                     ]
                 },
                 "description": {
-                    "type": "String",
+                    "type": "Edm.String",
                     "handlers": [
                         {
                             "@class": "de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.utils.fieldmapper.FieldMapperString",
@@ -34,7 +33,7 @@
                     ]
                 },
                 "metadata": {
-                    "type": "String",
+                    "type": "Edm.String",
                     "handlers": [
                         {
                             "@class": "de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.utils.fieldmapper.FieldMapperString",
@@ -43,7 +42,7 @@
                     ]
                 },
                 "link": {
-                    "type": "String",
+                    "type": "Edm.String",
                     "handlers": [
                         {
                             "@class": "de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.utils.fieldmapper.FieldMapperString",
@@ -52,7 +51,7 @@
                     ]
                 },
                 "properties": {
-                    "type": "Object",
+                    "type": "Sta.Object",
                     "hasCustomProperties": true,
                     "handlers": [
                         {

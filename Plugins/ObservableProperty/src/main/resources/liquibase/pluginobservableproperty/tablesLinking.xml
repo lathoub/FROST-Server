@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <!--
+     Copyright (C) 2016 Fraunhofer Institut IOSB, Fraunhoferstr. 1, D 76131
+     Karlsruhe, Germany.
+
+     This program is free software: you can redistribute it and/or modify
+     it under the terms of the GNU Lesser General Public License as published by
+     the Free Software Foundation, either version 3 of the License, or
+     (at your option) any later version.
+
+     This program is distributed in the hope that it will be useful,
+     but WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     GNU Lesser General Public License for more details.
+
+     You should have received a copy of the GNU Lesser General Public License
+     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    -->
+    <changeSet author="scf" id="2021-05-20-ObsProps_LT_PROPERTY_OOI" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="LT_PROPERTY_OOI" />
+            </not>
+        </preConditions>
+
+        <createTable tableName="LT_PROPERTY_OOI">
+            <column name="PROPERTY_ID" type="${idType-Property}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="OOI_ID" type="${idType-ObjectOfInterest}">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addPrimaryKey columnNames="PROPERTY_ID, OOI_ID" constraintName="LT_PROPERTY_OOI_PKEY" tableName="LT_PROPERTY_OOI"/>
+        <createIndex tableName="LT_PROPERTY_OOI" indexName="LT_PROPERTY_OOI_PROPERTY_ID">
+            <column name="PROPERTY_ID" />
+        </createIndex>
+        <createIndex tableName="LT_PROPERTY_OOI" indexName="LT_PROPERTY_OOI_OOI_ID">
+            <column name="OOI_ID" />
+        </createIndex>
+    </changeSet>
+
+    <changeSet author="scf" id="2021-05-20-ObsProps_LT_CO_VAR" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="LT_CO_VAR" />
+            </not>
+        </preConditions>
+        <createTable tableName="LT_CO_VAR">
+            <column name="CO_ID" type="${idType-ContextObject}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="VAR_ID" type="${idType-ObsProp}">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addPrimaryKey columnNames="CO_ID, VAR_ID" constraintName="LT_CO_VAR_PKEY" tableName="LT_CO_VAR"/>
+        <createIndex tableName="LT_CO_VAR" indexName="LT_CO_VAR_CO_ID">
+            <column name="CO_ID" />
+        </createIndex>
+        <createIndex tableName="LT_CO_VAR" indexName="LT_CO_VAR_VAR_ID">
+            <column name="VAR_ID" />
+        </createIndex>
+    </changeSet>
+
+    <changeSet author="scf" id="2021-05-20-ObsProps_LT_CO_CONSTRAINT" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="LT_CO_CONSTRAINT" />
+            </not>
+        </preConditions>
+        <createTable tableName="LT_CO_CONSTRAINT">
+            <column name="CO_ID" type="${idType-ContextObject}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CONSTRAINT_ID" type="${idType-Constraint}">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addPrimaryKey columnNames="CO_ID, CONSTRAINT_ID" constraintName="LT_CO_CONSTRAINT_PKEY" tableName="LT_CO_CONSTRAINT"/>
+        <createIndex tableName="LT_CO_CONSTRAINT" indexName="LT_CO_CONSTRAINT_CO_ID">
+            <column name="CO_ID" />
+        </createIndex>
+        <createIndex tableName="LT_CO_CONSTRAINT" indexName="LT_CO_CONSTRAINT_CONSTRAINT_ID">
+            <column name="CONSTRAINT_ID" />
+        </createIndex>
+    </changeSet>
+
+    <changeSet author="scf" id="2021-05-20-ObsProps_LT_MATRIX_CONSTRAINT" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="LT_MATRIX_CONSTRAINT" />
+            </not>
+        </preConditions>
+        <createTable tableName="LT_MATRIX_CONSTRAINT">
+            <column name="MATRIX_ID" type="${idType-Matrix}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CONSTRAINT_ID" type="${idType-Constraint}">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addPrimaryKey columnNames="MATRIX_ID, CONSTRAINT_ID" constraintName="LT_MATRIX_CONSTRAINT_PKEY" tableName="LT_MATRIX_CONSTRAINT"/>
+        <createIndex tableName="LT_MATRIX_CONSTRAINT" indexName="LT_MATRIX_CONSTRAINT_MATRIX_ID">
+            <column name="MATRIX_ID" />
+        </createIndex>
+        <createIndex tableName="LT_MATRIX_CONSTRAINT" indexName="LT_MATRIX_CONSTRAINT_CONSTRAINT_ID">
+            <column name="CONSTRAINT_ID" />
+        </createIndex>
+    </changeSet>
+
+    <changeSet author="scf" id="2021-05-20-ObsProps_LT_OOI_CONSTRAINT" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="LT_OOI_CONSTRAINT" />
+            </not>
+        </preConditions>
+        <createTable tableName="LT_OOI_CONSTRAINT">
+            <column name="OOI_ID" type="${idType-ObjectOfInterest}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CONSTRAINT_ID" type="${idType-Constraint}">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addPrimaryKey columnNames="OOI_ID, CONSTRAINT_ID" constraintName="LT_OOI_CONSTRAINT_PKEY" tableName="LT_OOI_CONSTRAINT"/>
+        <createIndex tableName="LT_OOI_CONSTRAINT" indexName="LT_OOI_CONSTRAINT_OOI_ID">
+            <column name="OOI_ID" />
+        </createIndex>
+        <createIndex tableName="LT_OOI_CONSTRAINT" indexName="LT_OOI_CONSTRAINT_CONSTRAINT_ID">
+            <column name="CONSTRAINT_ID" />
+        </createIndex>
+    </changeSet>
+
+    <changeSet author="scf" id="2021-05-20-ObsProps_OBS_PROPERTIES" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <!-- Added columns to Observed Properties table -->
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="OBS_PROPERTIES" columnName="MATRIX_ID" />
+                <columnExists tableName="OBS_PROPERTIES" columnName="OOI_ID" />
+                <columnExists tableName="OBS_PROPERTIES" columnName="PROPERTY_ID" />
+            </not>
+        </preConditions>
+        <addColumn tableName="OBS_PROPERTIES">
+            <column name="MATRIX_ID" type="${idType-Matrix}" remarks="NavLink Matrix"/>
+            <column name="OOI_ID" type="${idType-ObjectOfInterest}" remarks="NavLink Ooi"/>
+            <column name="PROPERTY_ID" type="${idType-Property}" remarks="NavLink Property"/>
+        </addColumn>
+
+        <createIndex tableName="OBS_PROPERTIES" indexName="OBS_PROPERTIES_MATRIX_ID">
+            <column name="MATRIX_ID" />
+        </createIndex>
+        <createIndex tableName="OBS_PROPERTIES" indexName="OBS_PROPERTIES_OOI_ID">
+            <column name="OOI_ID" />
+        </createIndex>
+        <createIndex tableName="OBS_PROPERTIES" indexName="OBS_PROPERTIES_PROPERTY_ID">
+            <column name="PROPERTY_ID" />
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>

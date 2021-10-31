@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <!--
+     Copyright (C) 2016 Fraunhofer Institut IOSB, Fraunhoferstr. 1, D 76131
+     Karlsruhe, Germany.
+
+     This program is free software: you can redistribute it and/or modify
+     it under the terms of the GNU Lesser General Public License as published by
+     the Free Software Foundation, either version 3 of the License, or
+     (at your option) any later version.
+
+     This program is distributed in the hope that it will be useful,
+     but WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     GNU Lesser General Public License for more details.
+
+     You should have received a copy of the GNU Lesser General Public License
+     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    -->
+    <changeSet author="scf" id="2021-05-20-observableProperties" objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <foreignKeyConstraintExists foreignKeyName="FKEY_CONSTRAINT_VAR_ID" />
+            </not>
+        </preConditions>
+
+        <addForeignKeyConstraint
+            constraintName="FKEY_CONSTRAINT_VAR_ID"
+            baseTableName="OP_CONSTRAINT" baseColumnNames="VAR_ID"
+            referencedTableName="OBS_PROPERTIES" referencedColumnNames="ID"
+            deferrable="false" initiallyDeferred="false"
+            onDelete="SET NULL" onUpdate="CASCADE"/>
+        <addForeignKeyConstraint
+            constraintName="FKEY_LT_PROPERTY_OOI_PROPERTY_ID"
+            baseTableName="LT_PROPERTY_OOI" baseColumnNames="PROPERTY_ID"
+            referencedTableName="OP_PROPERTY" referencedColumnNames="ID"
+            deferrable="false" initiallyDeferred="false"
+            onDelete="CASCADE" onUpdate="CASCADE"/>
+        <addForeignKeyConstraint
+            constraintName="FKEY_LT_PROPERTY_OOI_OOI_ID"
+            baseTableName="LT_PROPERTY_OOI" baseColumnNames="OOI_ID"
+            referencedTableName="OP_OOI" referencedColumnNames="ID"
+            deferrable="false" initiallyDeferred="false"
+            onDelete="CASCADE" onUpdate="CASCADE"/>
+        <addForeignKeyConstraint
+            constraintName="FKEY_LT_CO_VAR_CO_ID"
+            baseTableName="LT_CO_VAR" baseColumnNames="CO_ID"
+            referencedTableName="OP_CONTEXT_OBJECT" referencedColumnNames="ID"
+            deferrable="false" initiallyDeferred="false"
+            onDelete="CASCADE" onUpdate="CASCADE"/>
+        <addForeignKeyConstraint
+            constraintName="FKEY_LT_CO_VAR_VAR_ID"
+            baseTableName="LT_CO_VAR" baseColumnNames="VAR_ID"
+            referencedTableName="OBS_PROPERTIES" referencedColumnNames="ID"
+            deferrable="false" initiallyDeferred="false"
+            onDelete="CASCADE" onUpdate="CASCADE"/>
+        <addForeignKeyConstraint
+            constraintName="FKEY_LT_CO_CONSTRAINT_CO_ID"
+            baseTableName="LT_CO_CONSTRAINT" baseColumnNames="CO_ID"
+            referencedTableName="OP_CONTEXT_OBJECT" referencedColumnNames="ID"
+            deferrable="false" initiallyDeferred="false"
+            onDelete="CASCADE" onUpdate="CASCADE"/>
+        <addForeignKeyConstraint
+            constraintName="FKEY_LT_CO_CONSTRAINT_CONSTRAINT_ID"
+            baseTableName="LT_CO_CONSTRAINT" baseColumnNames="CONSTRAINT_ID"
+            referencedTableName="OP_CONSTRAINT" referencedColumnNames="ID"
+            deferrable="false" initiallyDeferred="false"
+            onDelete="CASCADE" onUpdate="CASCADE"/>
+        <addForeignKeyConstraint
+            constraintName="FKEY_LT_MATRIX_CONSTRAINT_MATRIX_ID"
+            baseTableName="LT_MATRIX_CONSTRAINT" baseColumnNames="MATRIX_ID"
+            referencedTableName="OP_MATRIX" referencedColumnNames="ID"
+            deferrable="false" initiallyDeferred="false"
+            onDelete="CASCADE" onUpdate="CASCADE"/>
+        <addForeignKeyConstraint
+            constraintName="FKEY_LT_MATRIX_CONSTRAINT_CONSTRAINT_ID"
+            baseTableName="LT_MATRIX_CONSTRAINT" baseColumnNames="CONSTRAINT_ID"
+            referencedTableName="OP_CONSTRAINT" referencedColumnNames="ID"
+            deferrable="false" initiallyDeferred="false"
+            onDelete="CASCADE" onUpdate="CASCADE"/>
+        <addForeignKeyConstraint
+            constraintName="FKEY_LT_OOI_CONSTRAINT_OOI_ID"
+            baseTableName="LT_OOI_CONSTRAINT" baseColumnNames="OOI_ID"
+            referencedTableName="OP_OOI" referencedColumnNames="ID"
+            deferrable="false" initiallyDeferred="false"
+            onDelete="CASCADE" onUpdate="CASCADE"/>
+        <addForeignKeyConstraint
+            constraintName="FKEY_LT_OOI_CONSTRAINT_CONSTRAINT_ID"
+            baseTableName="LT_OOI_CONSTRAINT" baseColumnNames="CONSTRAINT_ID"
+            referencedTableName="OP_CONSTRAINT" referencedColumnNames="ID"
+            deferrable="false" initiallyDeferred="false"
+            onDelete="CASCADE" onUpdate="CASCADE"/>
+        <addForeignKeyConstraint
+            constraintName="FKEY_OBS_PROPERTIES_MATRIX_ID"
+            baseTableName="OBS_PROPERTIES" baseColumnNames="MATRIX_ID"
+            referencedTableName="OP_MATRIX" referencedColumnNames="ID"
+            deferrable="false" initiallyDeferred="false"
+            onDelete="SET NULL" onUpdate="CASCADE"/>
+        <addForeignKeyConstraint
+            constraintName="FKEY_OBS_PROPERTIES_OOI_ID"
+            baseTableName="OBS_PROPERTIES" baseColumnNames="OOI_ID"
+            referencedTableName="OP_OOI" referencedColumnNames="ID"
+            deferrable="false" initiallyDeferred="false"
+            onDelete="SET NULL" onUpdate="CASCADE"/>
+        <addForeignKeyConstraint
+            constraintName="FKEY_OBS_PROPERTIES_PROPERTY_ID"
+            baseTableName="OBS_PROPERTIES" baseColumnNames="PROPERTY_ID"
+            referencedTableName="OP_PROPERTY" referencedColumnNames="ID"
+            deferrable="false" initiallyDeferred="false"
+            onDelete="SET NULL" onUpdate="CASCADE"/>
+    </changeSet>
+
+</databaseChangeLog>

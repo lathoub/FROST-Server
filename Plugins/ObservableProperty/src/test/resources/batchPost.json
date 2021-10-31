@@ -1,0 +1,295 @@
+{
+    "POST to": "/v1.1/$batch",
+    "Headers": "Content-Type: application/json",
+    "requests": [
+        {
+            "id": "matrix1",
+            "atomicityGroup": "group1",
+            "method": "post",
+            "url": "Matrices",
+            "body": {
+                "name": "Flesh"
+            }
+        },
+        {
+            "id": "matrix2",
+            "atomicityGroup": "group1",
+            "method": "post",
+            "url": "Matrices",
+            "body": {
+                "name": "Land Parcel"
+            }
+        },
+        {
+            "id": "matrix3",
+            "atomicityGroup": "group1",
+            "method": "post",
+            "url": "Matrices",
+            "body": {
+                "name": "Open Ocean Water"
+            }
+        },
+        {
+            "id": "co1",
+            "atomicityGroup": "group1",
+            "method": "post",
+            "url": "ContextObjects",
+            "body": {
+                "name": "Ostrea edulis"
+            }
+        },
+        {
+            "id": "co2",
+            "atomicityGroup": "group1",
+            "method": "post",
+            "url": "ContextObjects",
+            "body": {
+                "name": "Limnococcus Limneticus"
+            }
+        },
+        {
+            "id": "co3",
+            "atomicityGroup": "group1",
+            "method": "post",
+            "url": "ContextObjects",
+            "body": {
+                "name": "Picoplankton"
+            }
+        },
+        {
+            "id": "co4",
+            "atomicityGroup": "group1",
+            "method": "post",
+            "url": "ContextObjects",
+            "body": {
+                "name": "Corona Measures"
+            }
+        },
+        {
+            "id": "ooi1",
+            "atomicityGroup": "group1",
+            "method": "post",
+            "url": "ObjectsOfInterest",
+            "body": {
+                "name": "endosulfan sulfate"
+            }
+        },
+        {
+            "id": "ooi2",
+            "atomicityGroup": "group1",
+            "method": "post",
+            "url": "ObjectsOfInterest",
+            "body": {
+                "name": "organism"
+            }
+        },
+        {
+            "id": "ooi3",
+            "atomicityGroup": "group1",
+            "method": "post",
+            "url": "ObjectsOfInterest",
+            "body": {
+                "name": "grass species"
+            }
+        },
+        {
+            "id": "ooi4",
+            "atomicityGroup": "group1",
+            "method": "post",
+            "url": "ObjectsOfInterest",
+            "body": {
+                "name": "18S rRNA"
+            }
+        },
+        {
+            "id": "ooi5",
+            "atomicityGroup": "group1",
+            "method": "post",
+            "url": "ObjectsOfInterest",
+            "body": {
+                "name": "person"
+            }
+        },
+        {
+            "id": "property1",
+            "atomicityGroup": "group1",
+            "method": "post",
+            "url": "Properties",
+            "body": {
+                "name": "concentration per unit mass",
+                "ObjectsOfInterest": [{
+                        "@iot.id": "$ooi1"
+                    }]
+            }
+        },
+        {
+            "id": "property2",
+            "atomicityGroup": "group1",
+            "method": "post",
+            "url": "Properties",
+            "body": {
+                "name": "shape",
+                "ObjectsOfInterest": [{
+                        "@iot.id": "$ooi2"
+                    }]
+            }
+        },
+        {
+            "id": "property3",
+            "atomicityGroup": "group1",
+            "method": "post",
+            "url": "Properties",
+            "body": {
+                "name": "taxonomy",
+                "ObjectsOfInterest": [{
+                        "@iot.id": "$ooi3"
+                    }]
+            }
+        },
+        {
+            "id": "property4",
+            "atomicityGroup": "group1",
+            "method": "post",
+            "url": "Properties",
+            "body": {
+                "name": "nucleotide sequence",
+                "ObjectsOfInterest": [{
+                        "@iot.id": "$ooi4"
+                    }]
+            }
+        },
+        {
+            "id": "property5",
+            "atomicityGroup": "group1",
+            "method": "post",
+            "url": "Properties",
+            "body": {
+                "name": "affectedness",
+                "ObjectsOfInterest": [{
+                        "@iot.id": "$ooi5"
+                    }]
+            }
+        },
+        {
+            "id": "obsProp1",
+            "atomicityGroup": "group1",
+            "method": "post",
+            "url": "ObservedProperties",
+            "body": {
+                "name": "Concentration of endosulfan sulfate in Ostrea edulis flesh expressed per unit wet weight",
+                "description": "Concentration of endosulfan sulfate in Ostrea edulis flesh expressed per unit wet weight",
+                "definition": "some url",
+                "Matrix": {
+                    "@iot.id": "$matrix1"
+                },
+                "ObjectOfInterest": {
+                    "@iot.id": "$ooi1"
+                },
+                "Property": {
+                    "@iot.id": "$property1"
+                },
+                "ContextObjects": [{
+                        "@iot.id": "$co1"
+                    }]
+            }
+        },
+        {
+            "id": "obsProp2",
+            "atomicityGroup": "group1",
+            "method": "post",
+            "url": "ObservedProperties",
+            "body": {
+                "name": "shape of Limnococcus limneticus",
+                "description": "shape of Limnococcus limneticus",
+                "definition": "some url",
+                "ObjectOfInterest": {
+                    "@iot.id": "$ooi2"
+                },
+                "Property": {
+                    "@iot.id": "$property2"
+                },
+                "ContextObjects": [{
+                        "@iot.id": "$co2"
+                    }]
+            }
+        },
+        {
+            "id": "obsProp3",
+            "atomicityGroup": "group1",
+            "method": "post",
+            "url": "ObservedProperties",
+            "body": {
+                "name": "Grass-species of land parcel",
+                "description": "Grass-species of land parcel",
+                "definition": "some url",
+                "Matrix": {
+                    "@iot.id": "$matrix2"
+                },
+                "ObjectOfInterest": {
+                    "@iot.id": "$ooi3"
+                },
+                "Property": {
+                    "@iot.id": "$property3"
+                }
+            }
+        },
+        {
+            "id": "obsProp4",
+            "atomicityGroup": "group1",
+            "method": "post",
+            "url": "ObservedProperties",
+            "body": {
+                "name": "18S rRNA amplicon nucleotide sequence of picoplankton from vertical profiles of open ocean water",
+                "description": "18S rRNA amplicon nucleotide sequence of picoplankton from vertical profiles of open ocean water",
+                "definition": "some url",
+                "Matrix": {
+                    "@iot.id": "$matrix3"
+                },
+                "ObjectOfInterest": {
+                    "@iot.id": "$ooi4"
+                },
+                "Property": {
+                    "@iot.id": "$property4"
+                },
+                "ContextObjects": [{
+                        "@iot.id": "$co3"
+                    }]
+            }
+        },
+        {
+            "id": "obsProp5",
+            "atomicityGroup": "group1",
+            "method": "post",
+            "url": "ObservedProperties",
+            "body": {
+                "name": "to what extent are you affected by Corona measures",
+                "description": "to what extent are you affected by Corona measures",
+                "definition": "some url",
+                "ObjectOfInterest": {
+                    "@iot.id": "$ooi5"
+                },
+                "Property": {
+                    "@iot.id": "$property5"
+                },
+                "ContextObjects": [{
+                        "@iot.id": "$co4"
+                    }]
+            }
+        },
+        {
+            "id": "constraint1",
+            "atomicityGroup": "group1",
+            "method": "post",
+            "url": "Constraints",
+            "body": {
+                "name": "Wet",
+                "ObservedProperty": {
+                    "@iot.id": "$obsProp1"
+                },
+                "Matrices": [{
+                        "@iot.id": "$matrix1"
+                    }]
+            }
+        }
+    ]
+}

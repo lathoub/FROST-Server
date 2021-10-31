@@ -19,18 +19,19 @@ package de.fraunhofer.iosb.ilt.frostserver.plugin.observableproperty;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.fraunhofer.iosb.ilt.frostserver.model.ModelRegistry;
+import de.fraunhofer.iosb.ilt.frostserver.model.loader.DefEntityProperty;
+import de.fraunhofer.iosb.ilt.frostserver.model.loader.DefEntityType;
 import de.fraunhofer.iosb.ilt.frostserver.model.loader.DefModel;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.PersistenceManager;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.PersistenceManagerFactory;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.PostgresPersistenceManager;
+import de.fraunhofer.iosb.ilt.frostserver.plugin.coremodel.PluginCoreModel;
 import de.fraunhofer.iosb.ilt.frostserver.service.PluginModel;
 import de.fraunhofer.iosb.ilt.frostserver.service.PluginRootDocument;
 import de.fraunhofer.iosb.ilt.frostserver.service.Service;
 import de.fraunhofer.iosb.ilt.frostserver.service.ServiceRequest;
-import de.fraunhofer.iosb.ilt.frostserver.settings.ConfigDefaults;
 import de.fraunhofer.iosb.ilt.frostserver.settings.CoreSettings;
 import de.fraunhofer.iosb.ilt.frostserver.settings.Settings;
-import de.fraunhofer.iosb.ilt.frostserver.settings.annotation.DefaultValueBoolean;
 import de.fraunhofer.iosb.ilt.frostserver.util.LiquibaseUser;
 import de.fraunhofer.iosb.ilt.frostserver.util.exception.UpgradeFailedException;
 import java.io.IOException;
@@ -38,6 +39,8 @@ import java.io.InputStream;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -48,7 +51,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author scf
  */
-public class PluginObservableProperty implements PluginRootDocument, PluginModel, LiquibaseUser, ConfigDefaults {
+public class PluginObservableProperty implements PluginRootDocument, PluginModel, LiquibaseUser {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PluginObservableProperty.class.getName());
 
@@ -60,18 +63,17 @@ public class PluginObservableProperty implements PluginRootDocument, PluginModel
         "op_ooi.json",
         "op_property.json"
     };
-    private static final String LIQUIBASE_CHANGELOG_FILENAME = "liquibase/pluginobservableproperty/tables";
-
-    @DefaultValueBoolean(false)
-    public static final String TAG_ENABLE_OBSERVABLEPROPERTIES_MODEL = "observableproperty.enable";
+    private static final String LIQUIBASE_CHANGELOG_FILENAME = "liquibase/pluginobservableproperty/tables.xml";
 
     private static final List<String> REQUIREMENTS_OMS_MODEL = Arrays.asList(
             "https://padlet.com/barbaramagagna/sogprgszse1bgd24");
 
     private CoreSettings settings;
+    private ObsPropsSettings modelSettings;
     private boolean enabled;
     private boolean fullyInitialised;
     private List<DefModel> modelDefinitions = new ArrayList<>();
+    private Map<String, DefEntityProperty> primaryKeys;
 
     public PluginObservableProperty() {
         LOGGER.info("Creating new ObservableProperty Plugin.");
@@ -81,12 +83,18 @@ public class PluginObservableProperty implements PluginRootDocument, PluginModel
     public void init(CoreSettings settings) {
         this.settings = settings;
         Settings pluginSettings = settings.getPluginSettings();
-        enabled = pluginSettings.getBoolean(TAG_ENABLE_OBSERVABLEPROPERTIES_MODEL, getClass());
+        enabled = pluginSettings.getBoolean(ObsPropsSettings.TAG_ENABLE_OBSERVABLEPROPERTIES_MODEL, ObsPropsSettings.class);
         if (enabled) {
+            modelSettings = new ObsPropsSettings(settings);
             settings.getPluginManager().registerPlugin(this);
 
+            primaryKeys = new HashMap<>();
             for (String fileName : MODEL_FILES) {
                 loadModelFile(fileName);
+            }
+            for (Map.Entry<String, DefEntityProperty> entry : primaryKeys.entrySet()) {
+                String typeName = entry.getKey();
+                primaryKeys.get(typeName).setType(modelSettings.getTypeFor(settings, typeName));
             }
         }
     }
@@ -100,6 +108,9 @@ public class PluginObservableProperty implements PluginRootDocument, PluginModel
             DefModel modelDefinition = objectMapper.readValue(stream, DefModel.class);
             modelDefinition.init();
             modelDefinitions.add(modelDefinition);
+            for (DefEntityType type : modelDefinition.getEntityTypes().values()) {
+                primaryKeys.put(type.getName(), type.getEntityProperties().get("@iot.id"));
+            }
         } catch (IOException ex) {
             LOGGER.error("Failed to load model definition", ex);
         }
@@ -149,13 +160,25 @@ public class PluginObservableProperty implements PluginRootDocument, PluginModel
         return true;
     }
 
+    public Map<String, Object> createLiqibaseParams(PostgresPersistenceManager ppm, Map<String, Object> target) {
+        if (target == null) {
+            target = new LinkedHashMap<>();
+        }
+        PluginCoreModel pCoreModel = settings.getPluginManager().getPlugin(PluginCoreModel.class);
+        pCoreModel.createLiqibaseParams(ppm, target);
+        for (Map.Entry<String, DefEntityProperty> entry : primaryKeys.entrySet()) {
+            String typeName = entry.getKey();
+            ppm.generateLiquibaseVariables(target, typeName, modelSettings.getTypeFor(settings, typeName));
+        }
+        return target;
+    }
+
     @Override
     public String checkForUpgrades() {
         try (PersistenceManager pm = PersistenceManagerFactory.getInstance(settings).create()) {
             if (pm instanceof PostgresPersistenceManager) {
                 PostgresPersistenceManager ppm = (PostgresPersistenceManager) pm;
-                String fileName = LIQUIBASE_CHANGELOG_FILENAME + ppm.getIdManager().getIdClass().getSimpleName() + ".xml";
-                return ppm.checkForUpgrades(fileName);
+                return ppm.checkForUpgrades(LIQUIBASE_CHANGELOG_FILENAME, createLiqibaseParams(ppm, null));
             }
             return "Unknown persistence manager class";
         }
@@ -166,8 +189,7 @@ public class PluginObservableProperty implements PluginRootDocument, PluginModel
         try (PersistenceManager pm = PersistenceManagerFactory.getInstance(settings).create()) {
             if (pm instanceof PostgresPersistenceManager) {
                 PostgresPersistenceManager ppm = (PostgresPersistenceManager) pm;
-                String fileName = LIQUIBASE_CHANGELOG_FILENAME + ppm.getIdManager().getIdClass().getSimpleName() + ".xml";
-                return ppm.doUpgrades(fileName, out);
+                return ppm.doUpgrades(LIQUIBASE_CHANGELOG_FILENAME, createLiqibaseParams(ppm, null), out);
             }
             out.append("Unknown persistence manager class");
             return false;
