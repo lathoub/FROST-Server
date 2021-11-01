@@ -25,6 +25,7 @@ import de.fraunhofer.iosb.ilt.frostserver.model.loader.DefModel;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.PersistenceManager;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.PersistenceManagerFactory;
 import de.fraunhofer.iosb.ilt.frostserver.persistence.pgjooq.PostgresPersistenceManager;
+import de.fraunhofer.iosb.ilt.frostserver.plugin.coremodel.CoreModelSettings;
 import de.fraunhofer.iosb.ilt.frostserver.plugin.coremodel.PluginCoreModel;
 import de.fraunhofer.iosb.ilt.frostserver.service.PluginModel;
 import de.fraunhofer.iosb.ilt.frostserver.service.PluginRootDocument;
@@ -55,7 +56,8 @@ public class PluginObservableProperty implements PluginRootDocument, PluginModel
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PluginObservableProperty.class.getName());
 
-    private static final String MODEL_PATH = "pluginobservableproperty";
+    private static final String MODEL_NAME = "ObservableProperty";
+    private static final String MODEL_PATH = MODEL_NAME.toLowerCase();
     private static final String[] MODEL_FILES = new String[]{
         "op_constraint.json",
         "op_contextobject.json",
@@ -63,29 +65,29 @@ public class PluginObservableProperty implements PluginRootDocument, PluginModel
         "op_ooi.json",
         "op_property.json"
     };
-    private static final String LIQUIBASE_CHANGELOG_FILENAME = "liquibase/pluginobservableproperty/tables.xml";
+    private static final String LIQUIBASE_CHANGELOG_FILENAME = "liquibase/" + MODEL_PATH + "/tables.xml";
 
-    private static final List<String> REQUIREMENTS_OMS_MODEL = Arrays.asList(
+    private static final List<String> REQUIREMENTS = Arrays.asList(
             "https://padlet.com/barbaramagagna/sogprgszse1bgd24");
 
     private CoreSettings settings;
-    private ObsPropsSettings modelSettings;
     private boolean enabled;
     private boolean fullyInitialised;
+    private String idTypeDefault;
     private List<DefModel> modelDefinitions = new ArrayList<>();
     private Map<String, DefEntityProperty> primaryKeys;
 
     public PluginObservableProperty() {
-        LOGGER.info("Creating new ObservableProperty Plugin.");
+        LOGGER.info("Creating new {} Plugin.", MODEL_NAME);
     }
 
     @Override
     public void init(CoreSettings settings) {
         this.settings = settings;
         Settings pluginSettings = settings.getPluginSettings();
-        enabled = pluginSettings.getBoolean(ObsPropsSettings.TAG_ENABLE_OBSERVABLEPROPERTIES_MODEL, ObsPropsSettings.class);
+        enabled = pluginSettings.getBoolean(MODEL_PATH + ".enable", false);
         if (enabled) {
-            modelSettings = new ObsPropsSettings(settings);
+            idTypeDefault = pluginSettings.get(CoreModelSettings.TAG_ID_TYPE_DEFAULT, CoreModelSettings.class).toUpperCase();
             settings.getPluginManager().registerPlugin(this);
 
             primaryKeys = new HashMap<>();
@@ -94,7 +96,7 @@ public class PluginObservableProperty implements PluginRootDocument, PluginModel
             }
             for (Map.Entry<String, DefEntityProperty> entry : primaryKeys.entrySet()) {
                 String typeName = entry.getKey();
-                primaryKeys.get(typeName).setType(modelSettings.getTypeFor(settings, typeName));
+                primaryKeys.get(typeName).setType(getTypeFor(settings, typeName));
             }
         }
     }
@@ -134,7 +136,7 @@ public class PluginObservableProperty implements PluginRootDocument, PluginModel
             return;
         }
         Set<String> extensionList = (Set<String>) serverSettings.get(Service.KEY_CONFORMANCE_LIST);
-        extensionList.addAll(REQUIREMENTS_OMS_MODEL);
+        extensionList.addAll(REQUIREMENTS);
     }
 
     @Override
@@ -147,7 +149,7 @@ public class PluginObservableProperty implements PluginRootDocument, PluginModel
 
     @Override
     public boolean linkEntityTypes(PersistenceManager pm) {
-        LOGGER.info("Initialising ObservableProperty Model Types...");
+        LOGGER.info("Initialising {} Model Types...", MODEL_NAME);
         ModelRegistry modelRegistry = settings.getModelRegistry();
         for (DefModel modelDefinition : modelDefinitions) {
             modelDefinition.linkEntityTypes(modelRegistry);
@@ -160,6 +162,11 @@ public class PluginObservableProperty implements PluginRootDocument, PluginModel
         return true;
     }
 
+    public String getTypeFor(CoreSettings settings, String entityTypeName) {
+        Settings pluginSettings = settings.getPluginSettings();
+        return pluginSettings.get(MODEL_PATH + ".idType." + entityTypeName, idTypeDefault).toUpperCase();
+    }
+
     public Map<String, Object> createLiqibaseParams(PostgresPersistenceManager ppm, Map<String, Object> target) {
         if (target == null) {
             target = new LinkedHashMap<>();
@@ -168,7 +175,7 @@ public class PluginObservableProperty implements PluginRootDocument, PluginModel
         pCoreModel.createLiqibaseParams(ppm, target);
         for (Map.Entry<String, DefEntityProperty> entry : primaryKeys.entrySet()) {
             String typeName = entry.getKey();
-            ppm.generateLiquibaseVariables(target, typeName, modelSettings.getTypeFor(settings, typeName));
+            ppm.generateLiquibaseVariables(target, typeName, getTypeFor(settings, typeName));
         }
         return target;
     }
